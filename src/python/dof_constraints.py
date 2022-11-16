@@ -17,6 +17,7 @@ constitutiveParameters = [c0, c1]
 initialHydrostaticPressure = -c0 - 2.0 * c1
 
 # User numbers for identifying OpenCMISS-Iron objects:
+contextUserNumber = 1
 coordinateSystemUserNumber = 1
 regionUserNumber = 1
 basisUserNumber = 1
@@ -32,13 +33,15 @@ equationsSetUserNumber = 1
     sourceFieldUserNumber) = range(1, 6)
 problemUserNumber = 1
 
+context = iron.Context()
+context.Create(contextUserNumber)
 
 worldRegion = iron.Region()
-iron.Context.WorldRegionGet(worldRegion)
+context.WorldRegionGet(worldRegion)
 
 # Get the number of computational nodes and this computational node number
 computationEnvironment = iron.ComputationEnvironment()
-iron.Context.ComputationEnvironmentGet(computationEnvironment)
+context.ComputationEnvironmentGet(computationEnvironment)
 
 worldWorkGroup = iron.WorkGroup()
 computationEnvironment.WorldWorkGroupGet(worldWorkGroup)
@@ -47,7 +50,7 @@ computationalNodeNumber = worldWorkGroup.GroupNodeNumberGet()
 
 # Create a 3D rectangular cartesian coordinate system
 coordinateSystem = iron.CoordinateSystem()
-coordinateSystem.CreateStart(coordinateSystemUserNumber,iron.Context)
+coordinateSystem.CreateStart(coordinateSystemUserNumber,context)
 coordinateSystem.CreateFinish()
 
 # Create a region and assign the coordinate system to the region
@@ -59,7 +62,7 @@ region.CreateFinish()
 
 # Define basis
 basis = iron.Basis()
-basis.CreateStart(basisUserNumber,iron.Context)
+basis.CreateStart(basisUserNumber,context)
 basis.NumberOfXiSet(numberOfXi)
 basis.InterpolationXiSet([
         iron.BasisInterpolationSpecifications.LINEAR_LAGRANGE] * numberOfXi)
@@ -159,7 +162,7 @@ problem = iron.Problem()
 problemSpecification = [iron.ProblemClasses.ELASTICITY,
         iron.ProblemTypes.FINITE_ELASTICITY,
         iron.ProblemSubtypes.STATIC_FINITE_ELASTICITY]
-problem.CreateStart(problemUserNumber,iron.Context,problemSpecification)
+problem.CreateStart(problemUserNumber,context,problemSpecification)
 problem.CreateFinish()
 
 # Create the problem control loop
