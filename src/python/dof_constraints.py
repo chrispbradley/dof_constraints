@@ -178,7 +178,7 @@ linearSolver = oc.Solver()
 problem.SolversCreateStart()
 problem.SolverGet([oc.ControlLoopIdentifiers.NODE], 1, nonLinearSolver)
 nonLinearSolver.outputType = oc.SolverOutputTypes.PROGRESS
-nonLinearSolver.NewtonJacobianCalculationTypeSet(oc.JacobianCalculationTypes.FD)
+nonLinearSolver.NewtonJacobianCalculationTypeSet(oc.JacobianCalculationTypes.EQUATIONS)
 nonLinearSolver.NewtonAbsoluteToleranceSet(1e-14)
 nonLinearSolver.NewtonSolutionToleranceSet(1e-14)
 nonLinearSolver.NewtonRelativeToleranceSet(1e-14)
